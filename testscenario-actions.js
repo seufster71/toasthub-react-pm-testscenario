@@ -45,7 +45,7 @@ export function init() {
   };
 }
 
-export function list({state,listStart,listLimit,searchCriteria,orderCriteria,info}) {
+export function list({state,listStart,listLimit,searchCriteria,orderCriteria,info,paginationSegment}) {
 	return function(dispatch) {
 		let requestParams = {};
 		requestParams.action = "LIST";
@@ -78,7 +78,7 @@ export function list({state,listStart,listLimit,searchCriteria,orderCriteria,inf
 
 		return callService(params).then( (responseJson) => {
 			if (responseJson != null && responseJson.protocalError == null){
-				dispatch({ type: "LOAD_LIST_PM_TESTSCENARIO", responseJson });
+				dispatch({ type: "LOAD_LIST_PM_TESTSCENARIO", responseJson, paginationSegment });
 				if (info != null) {
 		        	  dispatch({type:'SHOW_STATUS',info:info});  
 		        }
@@ -215,4 +215,22 @@ export function clearField(field) {
 		 params.field = field;
 		dispatch({ type:"PM_TESTSCENARIO_CLEAR_FIELD",params});
 	};
+}
+
+export function setErrors({errors}) {
+	 return function(dispatch) {
+		 dispatch({ type:"PM_TESTSCENARIO_SET_ERRORS",errors});
+	 };
+}
+
+export function openDeleteModal({item}) {
+	 return function(dispatch) {
+		 dispatch({type:"PM_TESTSCENARIO_OPEN_DELETE_MODAL",item});
+	 };
+}
+
+export function closeDeleteModal() {
+	 return function(dispatch) {
+		 dispatch({type:"PM_TESTSCENARIO_CLOSE_DELETE_MODAL"});
+	 };
 }
